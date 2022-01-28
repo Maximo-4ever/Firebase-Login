@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "./Alert";
 
 export default function Register() {
   const [user, setUser] = useState({
@@ -22,15 +23,13 @@ export default function Register() {
       await signup(user.email, user.password);
       navigate("/");
     } catch (error) {
-      // if (error.code === "auth/invalid-email") setError("Correo invalido");
-      // if (error.code === "auth/weak-password") setError("Contraseña invalida");
       setError(error.code)
     }
   };
 
   return (
     <div>
-      {error && <p>{error}</p>}
+      {error && <Alert message={error} />}
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input
