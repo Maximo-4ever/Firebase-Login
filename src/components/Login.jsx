@@ -9,7 +9,7 @@ export default function Login() {
     password: "",
   });
 
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, resetPassword } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState();
 
@@ -35,7 +35,17 @@ export default function Login() {
     } catch (error) {
       setError(error.code);
     }
-  }; 
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      if (!user.email) return setError("Please enter your email");
+      await resetPassword(user.email);
+      setError("We send an email with a link to reset your password")
+    } catch (error) {
+      setError(error)
+    }
+  };
 
   return (
     <div className="w-full m-auto h-full flex justify-center items-center flex-col">
@@ -70,12 +80,30 @@ export default function Login() {
             onChange={handleChange}
           />
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded mb-7">Login</button>
-
-        <Link to="/register" className="block text-center -mb-3 underline">You do not have an Account?</Link>
+        <div className="flex items-center justify-between">
+          <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
+            Login
+          </button>
+          <a
+            href="#!"
+            onClick={handleResetPassword}
+            className="inline-block align-baseline font-bold text-blue-500"
+          >
+            Forgot Password?
+          </a>
+        </div>
       </form>
-
-      <button onClick={handleGoogleSignin} className="text-lg">Google Login</button>
+      <Link to="/register" className="block text-center mb-5 text-lg">
+        Don't have an account?{" "}
+        <span className="text-blue-500 font-bold">Create one</span>
+      </Link>
+      <button
+        onClick={handleGoogleSignin}
+        className="text-lg flex items-center justify-center bg-white shadow-md py-2 px-6 rounded"
+      >
+        <img src="google.svg" alt="Google" className="h-6 mr-3" /> Sign up with
+        Google
+      </button>
     </div>
   );
 }
