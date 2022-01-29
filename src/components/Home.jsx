@@ -16,9 +16,11 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <h1>Welcome {user.displayName || user.email}</h1>
-      <button onClick={handleLogout}>Logout</button>
+    <div className="w-full m-auto max-w-xs h-full flex items-center">
+      <div className="bg-white rounded shadow-md p-8">
+        <h1 className="text-2xl">Welcome {user.displayName || user.email}</h1>
+        <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded text-base text-white mt-6">Logout</button>
+      </div>
     </div>
   );
 }
